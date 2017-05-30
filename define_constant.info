@@ -1,0 +1,6 @@
+name = "Define Constant"
+description = "Define constants for investment calculator"
+package = Investment Calculator
+dependencies[] = computed_field
+version = 7.x-dev
+core = 7.x

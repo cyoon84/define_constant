@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * hook_menu implementation
+ */
+function define_constant_menu() {
+	$items = array();
+
+	$items['admin/config/content/define_constant'] = array(
+		'title' => 'Manage Constants',
+		'description' => 'Manage constants for investment calculator',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('define_constants_constant_config_form'),
+		'access arguments' => array('access administration pages'),
+		'type' => MENU_NORMAL_ITEM
+	);
+
+	return $items;
+}
+
+function define_constants_constant_config_form($form, &$form_state) {
+
+	$form['hst'] = array(
+	  '#type' => 'fieldset',
+	  '#title' => t('HST'),
+	  '#collapsible' => FALSE,
+	  '#collapsed' => FALSE,  
+	);
+
+	$form['hst']['ontario_hst'] = array (
+		'#type' => 'textfield',
+		'#title' => t('HST Rate in Ontario (%)'),
+		'#default_value' => variable_get('hst_ontario', 13),
+		'#size' => 2,
+		'#maxlength' => 2,
+		'#description' => t('Enter HST Rate in Ontario')
+	);
+
+	$form['hst']['federal_hst'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Federal HST (%)'),
+		'#default_value' => variable_get('hst_fed', 5),
+		'#size' => 2,
+		'#maxlength' => 2,
+		'#description' => t('Federal HST')
+	);
+
+	$form['hst']['provincial_hst'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Provincial HST (%)'),
+		'#default_value' => variable_get('hst_fed', 8),
+		'#size' => 4,
+		'#maxlength' => 4,
+		'#description' => t('Provincial HST')
+	);
+
+	$form['hst']['federal_rebate'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Federal HST Rebate(%)'),
+		'#default_value' => variable_get('fed_hst_rebate', 36 ),
+		'#size' => 4,
+		'#maxlength' => 4,
+		'#description' => t('Max rebate of $6300 rate changes above $350,000')
+	);
+
+	$form['hst']['provincial_rebate'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Provincial HST Rebate(%)'),
+		'#default_value' => variable_get('prov_hst_rebate', 75),
+		'#size' => 4,
+		'#maxlength' => 4,
+		'#description' => t('Max rebate of $24,000 which is reached at $400,000')
+	);
+
+	$form['hst']['federal_rebate_max'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Federal Rebate Maximum Price'),
+		'#default_value' => variable_get('federal_rebate_max', 450000.00 ),
+		'#size' => 10,
+		'#maxlength' => 10,
+		'#description' => t('Anything above and you get $0')
+	);
+
+	$form['hst']['federal_rebate_threshold'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Federal Rebate Threshold'),
+		'#default_value' => variable_get('federal_rebate_threshold', 350000.00 ),
+		'#size' => 10,
+		'#maxlength' => 10
+	);
+
+	$form['hst']['provincial_rebate_threshold'] = array (
+		'#type' => 'textfield',
+		'#title' => t('Provincial Rebate Threshold'),
+		'#default_value' => variable_get('provincial_rebate_threshold', 350000.00 ),
+		'#size' => 10,
+		'#maxlength' => 10
+	);
+
+	$form['hst_new_const'] = array(
+	  '#type' => 'fieldset',
+	  '#title' => t('HST New Construction Constants'),
+	  '#collapsible' => FALSE,
+	  '#collapsed' => FALSE,  
+	);
+
+	$form['hst_new_const']['threshold_1'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Up to or equal to $368,200'),
+		'#default_value' => variable_get('threshold_1_rate', 1.052 ),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+
+	$form['hst_new_const']['threshold_2'] = array(
+		'#type' => 'textfield',
+		'#title' => t('More than $368,200 and less than or equal to $424,850'),
+		'#default_value' => variable_get('threshold_2_rate', 1.133 ),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	$form['hst_new_const']['threshold_2_constant'] = array(
+		'#type' => 'hidden',
+		'#default_value' => variable_get('threshold_2_constant', 368200),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	$form['hst_new_const']['threshold_3'] = array(
+		'#type' => 'textfield',
+		'#title' => t('More than $424,850 and less than or equal to $484,500'),
+		'#default_value' => variable_get('threshold_3_rate', 1.193 ),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	$form['hst_new_const']['threshold_3_constant'] = array(
+		'#type' => 'hidden',
+		'#default_value' => variable_get('threshold_3_constant', 424850.00),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	$form['hst_new_const']['threshold_4'] = array(
+		'#type' => 'textfield',
+		'#title' => t('More than $424,850 and less than or equal to $484,500'),
+		'#default_value' => variable_get('threshold_4_rate', 1.130),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	$form['hst_new_const']['threshold_4_constant'] = array(
+		'#type' => 'hidden',
+		'#default_value' => variable_get('threshold_4_constant', 484500.00),
+		'#size' => 10,
+		'#maxlength' => 10
+
+	);
+
+	return system_settings_form($form);
+}
